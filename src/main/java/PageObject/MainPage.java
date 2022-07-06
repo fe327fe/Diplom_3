@@ -5,8 +5,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import com.codeborne.selenide.Selenide;
 
-import java.time.Duration;
-
 import static com.codeborne.selenide.Condition.visible;
 
 public class MainPage {
@@ -30,28 +28,20 @@ public class MainPage {
     private SelenideElement createBurgerText;
 
     // локатор раздела <Булки>
-    @FindBy(how = How.XPATH,using = ("//span[text()='Булки']"))
-    private SelenideElement availableBuns;
+    @FindBy(how = How.XPATH,using = ("//span[text()='Булки']//parent::div"))
+    private SelenideElement bunsTab;
 
     // локатор раздела <Соусы>
-    @FindBy(how = How.XPATH,using = ("//span[text()='Соусы']"))
-    private SelenideElement availableSauces;
+    @FindBy(how = How.XPATH,using = ("//span[text()='Соусы']//parent::div"))
+    private SelenideElement saucesTab;
 
     // локатор раздела <Начинки>
-    @FindBy(how = How.XPATH,using = ("//span[text()='Начинки']"))
-    private SelenideElement availableFillings;
+    @FindBy(how = How.XPATH,using = ("//span[text()='Начинки']//parent::div"))
+    private SelenideElement fillingsTab;
 
-    // локатор текстового элемента <Булки>
-    @FindBy(how = How.XPATH,using = ("//h2[text()='Булки']"))
-    private SelenideElement bunsText;
-
-    // локатор текстового элемента <Соусы>
-    @FindBy(how = How.XPATH,using = ("//h2[text()='Соусы']"))
-    private SelenideElement saucesText;
-
-    // локатор текстового элемента <Начинки>
-    @FindBy(how = How.XPATH,using = ("//h2[text()='Начинки']"))
-    private SelenideElement fillingsText;
+    // локатор для списка ингредиентов
+    @FindBy(how = How.CLASS_NAME,using = "BurgerIngredients_ingredients__list__2A-mT")
+    private SelenideElement ingredientsScrollDown;
 
     // метод клика по кнопке <Войти в аккаунт>
     public LoginPage clickLoginButton() {
@@ -96,40 +86,43 @@ public class MainPage {
     // метод клика по ссылке <Булки>
     public MainPage displayAvailableBuns() {
 
-        availableBuns.click();
+        bunsTab.click();
+        Selenide.sleep(3000);
         return this;
     }
 
     // метод клика по ссылке <Соусы>
     public MainPage displayAvailableSauces() {
 
-        availableSauces.shouldBe(visible, Duration.ofSeconds(5)).click();
+        saucesTab.click();
+        Selenide.sleep(3000);
         return this;
     }
 
     // метод клика по ссылке <Начинки>
     public MainPage displayAvailableFillings() {
 
-        availableFillings.shouldBe(visible, Duration.ofSeconds(5)).click();
+        fillingsTab.click();
+        Selenide.sleep(3000);
         return this;
     }
 
-    // метод проверки видимости текстового элемента <Булки>
-    public boolean isBunsTextDisplayed() {
+    // метод проверки, что вкладка <Булки> является активной
+    public String getBunsTabClassValue() {
 
-        return bunsText.shouldBe(visible, Duration.ofSeconds(5)).isDisplayed();
+        return bunsTab.getAttribute("class");
     }
 
-    // метод проверки видимости текстового элемента <Соусы>
-    public boolean isSaucesTextDisplayed() {
+    // метод проверки, что вкладка <Соусы> является активной
+    public String getSaucesTabClassValue() {
 
-        return saucesText.shouldBe(visible, Duration.ofSeconds(5)).isDisplayed();
+        return saucesTab.getAttribute("class");
     }
 
-    // метод проверки видимости текстового элемента <Начинки>
-    public boolean isFillingsTextDisplayed() {
+    // метод проверки, что вкладка <Начинки> является активной
+    public String getFillingsTabClassValue() {
 
-        return fillingsText.shouldBe(visible, Duration.ofSeconds(5)).isDisplayed();
+        return fillingsTab.getAttribute("class");
     }
 
 }

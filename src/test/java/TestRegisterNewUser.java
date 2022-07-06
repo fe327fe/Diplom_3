@@ -2,6 +2,7 @@ import TestModel.User.UserClient;
 import TestModel.User.UserCredentials;
 import TestModel.User.UserModel;
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import PageObject.MainPage;
@@ -14,15 +15,31 @@ public class TestRegisterNewUser extends BaseTest{
     private UserClient userClient;
     private UserCredentials creds;
     private UserModel user;
+    private boolean afterToBeLaunched;
 
     @Before
     public void setUp() {
+
+        afterToBeLaunched = true;
 
         userClient = new UserClient();
         user = UserModel.getRandom();
         creds = UserCredentials.from(user);
     }
 
+    @After
+    public void teardown(){
+
+        if(!afterToBeLaunched) {
+            return;
+        }
+        String bearerToken = userClient.login(creds)
+                .then().log().all()
+                .extract()
+                .path("accessToken");
+
+        userClient.delete(user.getEmail(), bearerToken);
+    }
 
     @Test
     @DisplayName("Check successfully registering a new user")
@@ -32,8 +49,6 @@ public class TestRegisterNewUser extends BaseTest{
         // клик по кнопке <Войти в аккаунт>
         // клик по ссылке <Зарегистрироваться>
         // проверяем наличие кнопки <Оформить заказ>
-        // получаем токен
-        // удаляем созданного ранее пользователя
 
         final boolean orderButtonDisplayed = Selenide.open (MainPage.URL, MainPage.class)
                 .clickLoginButton()
@@ -43,16 +58,6 @@ public class TestRegisterNewUser extends BaseTest{
                 .isOrderButtonDisplayed();
 
         assertTrue(orderButtonDisplayed);
-
-        String bearerToken = userClient.login(creds)
-                .then().log().all()
-                .assertThat()
-                .statusCode(200)
-                .extract()
-                .path("accessToken");
-
-        userClient.delete(user.getEmail(), bearerToken);
-
     }
 
     @Test
@@ -73,6 +78,6 @@ public class TestRegisterNewUser extends BaseTest{
                 .isIncorrectPassDisplayed();
 
         assertTrue(incorrectPasswordWarningDisplayed);
-
+        afterToBeLaunched = false;
     }
 }

@@ -13,18 +13,15 @@ public class RegisterPage {
     final public static String URL = "https://stellarburgers.nomoreparties.site/register";
 
     // локатор поля для ввода имени
-    @FindBy(how = How.XPATH,using =("//label[@class='input__placeholder text noselect text_type_main-default'][text()" +
-            "='Имя']/parent::div/input"))
+    @FindBy(how = How.XPATH,using =("//label[text()='Имя']//following-sibling::input"))
             private SelenideElement nameInputField;
 
     // локатор поля для ввода email
-    @FindBy(how = How.XPATH,using =("//label[@class='input__placeholder text noselect text_type_main-default'][text()" +
-            "='Email']/parent::div/input"))
+    @FindBy(how = How.XPATH,using =("//label[text()='Email']//following-sibling::input"))
     private SelenideElement emailInputField;
 
     // локатор поля для ввода пароля
-    @FindBy(how = How.XPATH,using =("//label[@class='input__placeholder text noselect text_type_main-default'][text()" +
-            "='Пароль']/parent::div/input"))
+    @FindBy(how = How.XPATH,using =("//input[@type='password']"))
     private SelenideElement passwordInputField;
 
     // локатор кнопки <зарегистрироваться>

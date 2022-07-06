@@ -3,67 +3,69 @@ import com.codeborne.selenide.Selenide;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 public class TestBurgerIngredients extends BaseTest{
 
+    private final String expected = "tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect";
+
 
     @Test
-    @DisplayName("Check clicking the buns link displays the  list of available buns")
-    public void successfullyDisplayBunsTextElement () {
+    @DisplayName("Check the buns tab gets activated successfully")
+    public void checkBunsTabGetsActivatedSuccessfully() {
 
         // открывается главная страница и создаётся экземпляр класса страницы
-        // клик по ссылке <Начинки>
-        // клик по ссылке <Соусы>
-        // клик по ссылке <Булки>
-        // проверяем наличие текстового элемента <Булки>
+        // активируем вкладку <Начинки>
+        // активируем вкладку <Соусы>
+        // активируем вкладку <Булки>
+        // проверяем, что вкладка <Булки> является активной
 
-        final boolean bunsTextDisplayed = Selenide.open (MainPage.URL, MainPage.class)
+        final String actual = Selenide.open (MainPage.URL, MainPage.class)
                 .displayAvailableFillings()
                 .displayAvailableSauces()
                 .displayAvailableBuns()
-                .isBunsTextDisplayed();
+                .getBunsTabClassValue();
 
-        assertTrue(bunsTextDisplayed);
+        assertEquals(expected, actual);
     }
 
     @Test
-    @DisplayName("Check clicking the sauces link displays the list of available sauces")
-    public void successfullyDisplaySaucesTextElement () {
+    @DisplayName("Check the sauces tab gets activated successfully")
+    public void checkSaucesTabGetsActivatedSuccessfully () {
 
         // открывается главная страница и создаётся экземпляр класса страницы
-        // клик по ссылке <Начинки>
-        // клик по ссылке <Булки>
-        // клик по ссылке <Соусы>
-        // проверяем наличие текстового элемента <Соусы>
+        // активируем вкладку <Начинки>
+        // активируем вкладку <Булки>
+        // активируем вкладку <Соусы>
+        // проверяем, что вкладка <Соусы> является активной
 
-        final boolean saucesTextDisplayed = Selenide.open (MainPage.URL, MainPage.class)
+        final String actual = Selenide.open (MainPage.URL, MainPage.class)
                 .displayAvailableFillings()
                 .displayAvailableBuns()
                 .displayAvailableSauces()
-                .isSaucesTextDisplayed();
+                .getSaucesTabClassValue();
 
-        assertTrue(saucesTextDisplayed);
+        assertEquals(expected, actual);
     }
 
     @Test
-    @DisplayName("Check clicking the fillings link displays the list of available fillings")
-    public void successfullyDisplayFillingsTextElement () {
+    @DisplayName("Check the fillings tab gets activated successfully")
+    public void checkFillingsTabGetsActivatedSuccessfully () {
 
         // открывается главная страница и создаётся экземпляр класса страницы
-        // клик по ссылке <Соусы>
-        // клик по ссылке <Булки>
-        // клик по ссылке <Начинки>
-        // проверяем наличие текстового элемента <Начинки>
+        // активируем вкладку <Соусы>
+        // активируем вкладку <Булки>
+        // активируем вкладку <Начинки>
+        // проверяем, что вкладка <Начинки> является активной
 
-        final boolean fillingsTextDisplayed = Selenide.open (MainPage.URL, MainPage.class)
+        final String actual = Selenide.open (MainPage.URL, MainPage.class)
                 .displayAvailableSauces()
                 .displayAvailableBuns()
                 .displayAvailableFillings()
-                .isFillingsTextDisplayed();
+                .getFillingsTabClassValue();
 
-        assertTrue(fillingsTextDisplayed);
+        assertEquals(expected, actual);
     }
 
 }

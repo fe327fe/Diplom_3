@@ -1,13 +1,11 @@
 package TestModel.User;
 import TestModel.RestAssuredClient;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 
 public class UserClient extends RestAssuredClient {
     private final String REGISTER = "/auth/register";
     private final String LOGIN = "/auth/login";
     private final String DELETE = "/auth/user?={user}";
-    private final String USER = "/auth/user";
 
     public Response registerNewUser(UserModel user) {
         return reqSpec
@@ -22,19 +20,11 @@ public class UserClient extends RestAssuredClient {
                 .when()
                 .post(LOGIN);
     }
-    public Response modifyExistingUser(UserModel user, String bearerToken) {
-        RequestSpecification oauthSpec = getOauthSpec(bearerToken);
-
-        return oauthSpec
-                .body(user)
-                .when()
-                .patch(USER);
-    }
 
     public void delete(String user, String bearerToken) {
-        RequestSpecification oauthSpec = getOauthSpec(bearerToken);
 
-        oauthSpec
+        reqSpec
+                .header("authorization", bearerToken)
                 .pathParams("user", user)
                 .when()
                 .delete(DELETE)
